@@ -3,7 +3,7 @@ import sys
 
 import requests
 
-INVALID_STATUS_CODES = [400, 401, 402, 403, 404, 500, 501]
+INVALID_STATUS_CODES = [400, 401, 402, 403, 404, 500, 501, 502]
 
 
 class QueryApi(object):
@@ -13,24 +13,16 @@ class QueryApi(object):
                              "(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})",
                              "(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?))"]
 
-'''
-  Checks to see if the entered URL matches any of our known pattens.
-  Returns True is any of the patterns match the enterd URL.
-'''
     def is_valid_syntax(self, url):
         for pattern in self.url_patterns:
             if re.search(pattern, url):
                 print("Url has valid syntax")
                 return True
 
-
-'''
-    Displays all URL's with postion and value.
-'''
     def display_all_urls(self):
         print("Available urls:")
-        for key, value in self.urls.items():
-            print("{0} : {1}".format(key, value))
+        for pos, url in self.urls.items():
+            print("{0} : {1}".format(pos, url))
 
     def save_url(self, url):
         for key, value in self.urls.items():
@@ -83,7 +75,8 @@ def run():
         qa.save_url(url)
         if qa.is_valid_syntax(url):
             if qa.check_status(url):
-                qa.get_data(url)
+                pass
+                # qa.get_data(url)
         else:
             counter = 0
             while counter < 2:
@@ -94,13 +87,14 @@ def run():
                 qa.save_url(url)
                 if qa.is_valid_syntax(url):
                     if qa.check_status(url):
-                        qa.get_data(url)
+                        # qa.get_data(url)
                         break
             else:
-                print("You have exceeded wrong attempts limit")
+                print("You have exceeded wrong attempts (2) limit")
                 sys.exit(100)
 
         choice = input("Do you wish to continue (Y/N) ?").lower()
+
 
 def main():
     run()
