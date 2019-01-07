@@ -1,4 +1,4 @@
-import Sunny.query_any_url as qnu
+import query_any_url as qnu
 
 X_URL = 'http://www.example.com/'
 obj = qnu.QueryApi()
